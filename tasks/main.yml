@@ -1,0 +1,59 @@
+---
+# tasks file for ansible-gocryptfs
+
+- name: Check gocryptfs file
+  stat:
+    path: "{{gocryptfs_install_directory}}/{{gocryptfs_name}}"
+  register: st
+
+- name: Get latest version info
+  uri:
+    url: "{{gocryptfs_package_meta_json}}"
+    method: GET
+    return_content: yes
+  register: latest_version_info
+
+- name: Set latest version as fact
+  set_fact:
+    gocryptfs_version: "{{ (latest_version_info.content|from_json).tag_name }}"
+  when: gocryptfs_version == "latest"
+
+- name: Check gocryptfs version
+  shell: |
+    {{gocryptfs_install_directory}}/{{gocryptfs_name}} --version | grep "{{gocryptfs_version}}"
+  register: ver
+  when: st.stat.exists
+  failed_when: false
+  changed_when: false
+
+- name: Remove old gocryptfs version
+  file:
+    state: absent
+    path: "{{gocryptfs_install_directory}}/{{gocryptfs_name}}"
+  when: ver|failed
+
+- name: Set archive name as fact unless testing
+  set_fact:
+    gocryptfs_tgz: "{{gocryptfs_name}}_{{gocryptfs_version}}_{{ansible_os_family|lower}}8_{{gocryptfs_platform}}.tar.gz"
+  when: not ansible_unit_test
+
+- name: Set install url as fact unless testing
+  set_fact:
+    gocryptfs_tgz_url: "{{gocryptfs_base_url}}/{{gocryptfs_tgz}}"
+  when: not ansible_unit_test
+
+- name: Downloading gocryptfs archive
+  get_url:
+    url: "{{gocryptfs_tgz_url}}"
+    dest: "/tmp/{{gocryptfs_tgz}}"
+    mode: 0644
+
+- name: unarchive gocryptfs
+  unarchive:
+    copy: no
+    src: "/tmp/{{gocryptfs_tgz}}"
+    dest: "{{gocryptfs_install_directory}}"
+    creates: "{{gocryptfs_install_directory}}/{{gocryptfs_name}}"
+    owner: "{{gocryptfs_owner}}"
+    group: "{{gocryptfs_group}}"
+    mode: "{{gocryptfs_mode}}"

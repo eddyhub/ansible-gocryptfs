@@ -1,0 +1,26 @@
+---
+# defaults file for ansible-gocryptfs
+
+ansible_unit_test: false
+gocryptfs_role_release: '0.0.1'
+
+# gocryptfs version to install
+gocryptfs_version: 'latest'
+
+# gocryptfs platform
+gocryptfs_platform: 'amd64'
+
+# gocryptfs name with installed version
+gocryptfs_name: 'gocryptfs'
+
+# gocryptfs install directory
+gocryptfs_install_directory: '/usr/local/bin'
+
+# gocryptfs owner
+gocryptfs_owner: 'root'
+
+# gocryptfs group
+gocryptfs_group: 'root'
+
+# gocryptfs set suid access
+gocryptfs_mode: '4755'
