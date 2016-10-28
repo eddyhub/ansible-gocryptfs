@@ -3,7 +3,7 @@ ansible-gocryptfs
 
 [![BSD License](http://img.shields.io/badge/license-BSD-blue.svg)](http://opensource.org/licenses/BSD-3-Clause)
 
-Ansible role for managing gocryptfs installtion from https://nuetzlich.net/gocryptfs/
+Ansible role for managing gocryptfs installation from https://nuetzlich.net/gocryptfs/
 
 Installation
 ------------
