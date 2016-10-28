@@ -39,7 +39,7 @@
 
 - name: Set install url as fact unless testing
   set_fact:
-    gocryptfs_tgz_url: "{{gocryptfs_base_url}}/{{gocryptfs_tgz}}"
+    gocryptfs_tgz_url: "{{gocryptfs_base_url}}/{{gocryptfs_version}}/{{gocryptfs_tgz}}"
   when: not ansible_unit_test
 
 - name: Downloading gocryptfs archive
