@@ -57,7 +57,7 @@ Example Playbook
 ----------------
 
 ```yaml
-- name: Installing Gocryptfs
+- name: Installing gocryptfs
   hosts: all
   sudo: yes
   roles:
@@ -67,7 +67,7 @@ Example Playbook
 License
 -------
 
-Copyright (c) 2016, Eduard Angold
+Copyright (c) 2017, Eduard Angold
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

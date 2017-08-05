@@ -28,7 +28,7 @@ script:
     || (echo 'Idempotency: FAIL' && exit 1)
 
   - >
-    [ -f "/usr/local/bin/gocryptfs" ] && echo "Gocryptfs installed" && exit 0 || echo "Gocryptfs not installed" && exit 1
+    [ -f "/usr/local/bin/gocryptfs" ] && echo "gocryptfs installed" && exit 0 || echo "gocryptfs not installed" && exit 1
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

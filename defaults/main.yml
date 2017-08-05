@@ -24,3 +24,6 @@ gocryptfs_group: 'root'
 
 # gocryptfs set suid access
 gocryptfs_mode: '4755'
+
+# gocryptfs install directory
+gocryptfs_manpage_directory: '/usr/local/share/man/man1'

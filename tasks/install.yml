@@ -1,0 +1,40 @@
+---
+# install tasks
+- name: set archive name as fact unless testing
+  set_fact:
+    gocryptfs_archive: "{{gocryptfs_name}}_v{{gocryptfs_version}}_linux-static_{{gocryptfs_platform}}.tar.gz"
+  when: not ansible_unit_test
+
+- name: set install url as fact unless testing
+  set_fact:
+    gocryptfs_archive_url: "{{gocryptfs_release_url}}/v{{gocryptfs_version}}/{{gocryptfs_archive}}"
+
+- name: downloading gocryptfs archive
+  get_url:
+    url: "{{gocryptfs_archive_url}}"
+    dest: "/tmp/{{gocryptfs_archive}}"
+    mode: 0644
+
+- name: extract gocryptfs
+  unarchive:
+    copy: no
+    src: "/tmp/{{gocryptfs_archive}}"
+    dest: "{{gocryptfs_install_directory}}"
+    creates: "{{gocryptfs_install_directory}}/{{gocryptfs_name}}"
+    owner: "{{gocryptfs_owner}}"
+    group: "{{gocryptfs_group}}"
+    mode: "{{gocryptfs_mode}}"
+  when:
+    - not ansible_unit_test
+
+- name: create man page dir
+  file:
+    path: "{{gocryptfs_manpage_directory}}"
+    state: directory
+  when:
+    - not ansible_unit_test
+
+- name: move man page
+  command: "mv {{gocryptfs_install_directory}}/{{gocryptfs_name}}.1 {{gocryptfs_manpage_directory}}/{{gocryptfs_name}}.1"
+  when:
+    - not ansible_unit_test
